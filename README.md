@@ -30,14 +30,14 @@ PYTHONPATH=${TF_HVD_DIR}/lib
 Now install `intel-tensorflow` or `tensorflow`:
 
 ```bash
-pip install --no-cache-dir --ignore-installed intel-tensorflow~=2.11
+pip install intel-tensorflow==2.10
 
 # Customize Horovod installation for TensorFlow
 HOROVOD_WITH_MPI=1
 HOROVOD_WITH_MXNET=0
 HOROVOD_WITH_PYTORCH=0
 HOROVOD_WITH_TENSORFLOW=1
-pip install --no-cache-dir --ignore-installed horovod~=0.26.1
+pip install horovod==0.26.1
 ```
 
 Once both `TensorFlow` and `Horovod` are install successfully, download the following file:
@@ -52,7 +52,7 @@ You can run the example either using `mpirun` or `horovodrun`.
 TF_HVD_DIR=/home/<USER>/tf_hvd && \
 PYTHONPATH=${TF_HVD_DIR}/lib && \
 PATH=${TF_HVD_DIR}/bin:${PATH} \
-mpirun --allow-run-as-root -bind-to none -map-by slot -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH -x NCCL_SOCKET_IFNAME=^lo,docker0 -mca pml ob1 -mca btl ^openib -mca btl_tcp_if_exclude lo,docker0 \
+mpirun --allow-run-as-root -bind-to none -map-by slot -x NCCL_DEBUG=INFO -x PATH -x NCCL_SOCKET_IFNAME=^lo,docker0 -mca pml ob1 -mca btl ^openib -mca btl_tcp_if_exclude lo,docker0 \
     -np 4 \
     -H node-01:2,node02:2 \
     python ${TF_HVD_DIR}/tensorflow2_mnist.py
