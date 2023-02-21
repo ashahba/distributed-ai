@@ -52,11 +52,13 @@ You can run the example either using `mpirun` or `horovodrun`.
 TF_HVD_DIR=/home/<USER>/tf_hvd && \
 PYTHONPATH=${TF_HVD_DIR}/lib && \
 PATH=${TF_HVD_DIR}/bin:${PATH} \
-mpirun --allow-run-as-root -bind-to none -map-by slot -x NCCL_DEBUG=INFO -x PATH -x NCCL_SOCKET_IFNAME=^lo,docker0 -mca pml ob1 -mca btl ^openib -mca btl_tcp_if_exclude lo,docker0 \
+mpirun --allow-run-as-root -bind-to none -map-by slot -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH -x NCCL_SOCKET_IFNAME=^lo,docker0 -mca pml ob1 -mca btl ^openib -mca btl_tcp_if_exclude lo,docker0 \
     -np 4 \
     -H node-01:2,node02:2 \
     python ${TF_HVD_DIR}/tensorflow2_mnist.py
 ```
+
+**Note:** If you encounter errors with `LD_LIBRARY_PATH`, remove the option from the above command and run it again.
 
 This will generate an output like below:
 ```
